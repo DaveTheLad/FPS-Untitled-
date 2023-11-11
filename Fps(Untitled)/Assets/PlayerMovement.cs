@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
 
     Animator animator;
 
+
+    // runs only once when the session is begun and grabs the Animator component
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -54,10 +56,11 @@ public class PlayerMovement : MonoBehaviour
         // Checks if player is moving
         if(move != Vector3.zero)
         {
-            Debug.Log("Test");
+            // starts walking animation
             animator.SetBool("walk", true);
         }else
-        {
+        {   
+            // ends walking animation
             animator.SetBool("walk", false);
         }
 
@@ -68,9 +71,11 @@ public class PlayerMovement : MonoBehaviour
             // Perform the jump using the jump formula
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
+            // start jumping animation
             animator.SetBool("jump", true);
         }else
         {
+            // end jumping animation
             animator.SetBool("jump", false);
         }
 
