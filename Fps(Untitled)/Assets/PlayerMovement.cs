@@ -6,50 +6,55 @@ public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
 
+    // Movement parameters
     public float speed = 12f;
-    public float gravity = -9.80f;
-    public float JumpHeight = 3f;
+    public float gravity = -9.81f;
+    public float jumpHeight = 3f;
 
+    // Ground check parameters
     public Transform groundCheck;
-    public float groundDistance = 0.4f;
+    public float groundDistance = 0.2f;
     public LayerMask groundMask;
 
+    // Player velocity and grounded state
     Vector3 velocity;
     bool isGrounded;
 
     // Update is called once per frame
     void Update()
     {
-        // Check if the player is grounded using a sphere check at the specified position
+        // Check if the player is on the ground
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        // If the player is grounded and falling, reset the vertical velocity
+        // Debug.DrawRay(groundCheck.position, Vector3.down * groundDistance, Color.red);
+
+        // Apply gravity to make the player stick to the ground
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
 
-        // Get horizontal and vertical input for player movement
+        // Get input for horizontal and vertical movement
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        // Calculate the movement direction based on the input and player's orientation
+        // Calculate the movement direction based on player input
         Vector3 move = transform.right * x + transform.forward * z;
 
-        // Move the player using CharacterController with speed and time-based deltaTime
+        // Move the player using CharacterController
         controller.Move(move * speed * Time.deltaTime);
 
-        // Check for the jump input and whether the player is grounded
+        // Check for jump input and ensure the player is on the ground before jumping
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            // Apply the jump formula to calculate the initial jump velocity
-            velocity.y = Mathf.Sqrt(JumpHeight * -2f * gravity);
+            // Perform the jump using the jump formula
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 
-        // Apply gravity to the player's vertical velocity over time
+        // Apply gravity to the player
         velocity.y += gravity * Time.deltaTime;
 
-        // Move the player vertically using CharacterController with time-based deltaTime
+        // Move the player vertically based on the calculated velocity
         controller.Move(velocity * Time.deltaTime);
     }
 }
