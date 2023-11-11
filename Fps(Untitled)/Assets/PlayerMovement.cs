@@ -6,6 +6,13 @@ public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
 
+    Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     // Movement parameters
     public float speed = 12f;
     public float gravity = -9.81f;
@@ -43,12 +50,28 @@ public class PlayerMovement : MonoBehaviour
 
         // Move the player using CharacterController
         controller.Move(move * speed * Time.deltaTime);
+        
+        // Checks if player is moving
+        if(move != Vector3.zero)
+        {
+            Debug.Log("Test");
+            animator.SetBool("walk", true);
+        }else
+        {
+            animator.SetBool("walk", false);
+        }
 
-        // Check for jump input and ensure the player is on the ground before jumping
+
+        // Checkfor jump input and ensure the player is on the ground before jumping
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             // Perform the jump using the jump formula
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
+            animator.SetBool("jump", true);
+        }else
+        {
+            animator.SetBool("jump", false);
         }
 
         // Apply gravity to the player
