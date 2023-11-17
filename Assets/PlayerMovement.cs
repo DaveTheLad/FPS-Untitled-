@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public float groundDistance = 0.2f;
     public LayerMask groundMask;
-    public KeyCode sprintKey = KeyCode.RightShift;
+    public KeyCode sprintKey = KeyCode.LeftShift;
 
     // Player velocity and grounded state
     Vector3 velocity;
