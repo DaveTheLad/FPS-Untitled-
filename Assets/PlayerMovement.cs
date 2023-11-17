@@ -16,7 +16,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Movement parameters
-    public float speed = 12f;
+    private float speed;
+    public float walkSpeed;
+    public float sprintSpeed;
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
 
@@ -24,16 +26,50 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public float groundDistance = 0.2f;
     public LayerMask groundMask;
+    public KeyCode sprintKey = KeyCode.RightShift;
 
     // Player velocity and grounded state
     Vector3 velocity;
     bool isGrounded;
+
+    public MoveMentState state;
+    public enum MoveMentState
+    {
+        walking,
+        sprinting,
+        air
+    }
+
+    private void StateHandler()
+    {
+        //Mode - sprint
+        if (isGrounded && Input.GetKey(sprintKey))
+        {
+            state = MoveMentState.sprinting;
+            speed = sprintSpeed;
+        }
+
+        // Mode - Walking 
+        else if (isGrounded)
+        {
+            state = MoveMentState.walking;
+            speed = walkSpeed;
+        }
+
+        //Mode - Air 
+        else
+        {
+            state = MoveMentState.air;
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
         // Check if the player is on the ground
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+        StateHandler();
 
         // Debug.DrawRay(groundCheck.position, Vector3.down * groundDistance, Color.red);
 
@@ -85,4 +121,5 @@ public class PlayerMovement : MonoBehaviour
         // Move the player vertically based on the calculated velocity
         controller.Move(velocity * Time.deltaTime);
     }
+
 }
