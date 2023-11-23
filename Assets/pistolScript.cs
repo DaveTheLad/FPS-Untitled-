@@ -6,6 +6,7 @@ public class pistolScript : MonoBehaviour
     public float range = 100f;
 
     public Camera fpsCam;
+    public ParticleSystem muzzleFlash;
 
     // Update is called once per frame
     void Update()
@@ -13,6 +14,7 @@ public class pistolScript : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             Shoot();
+            muzzleFlash.Play();
         }
     }
 
