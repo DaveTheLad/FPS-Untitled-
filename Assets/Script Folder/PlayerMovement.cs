@@ -42,8 +42,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void StateHandler()
     {
-        //Mode - sprint
-        if (isGrounded && Input.GetKey(sprintKey))
+        bool isSprinting = Input.GetKey(sprintKey);
+        bool isJumping = Input.GetButton("Jump");
+
+        // Mode - sprint and jump (b hop like) ;)
+        if (isGrounded && isSprinting && isJumping)
+        {
+            state = MoveMentState.sprinting;
+            speed = sprintSpeed * 1.5f; 
+        }
+
+        // Mode - sprint
+        else if (isGrounded && isSprinting)
         {
             state = MoveMentState.sprinting;
             speed = sprintSpeed;
@@ -56,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
             speed = walkSpeed;
         }
 
-        //Mode - Air 
+        // Mode - Air 
         else
         {
             state = MoveMentState.air;
@@ -100,9 +110,8 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("walk", false);
         }
 
-
         // Checkfor jump input and ensure the player is on the ground before jumping
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButton("Jump") && isGrounded)
         {
             // Perform the jump using the jump formula
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
