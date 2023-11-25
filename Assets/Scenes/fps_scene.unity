@@ -11807,6 +11807,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AK47
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 33269b2b610f4c245a712795c1927939, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -12147,7 +12151,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1571873486409940420, guid: 050b8f89784d3b44fa285b5a719411e1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1571873486410228196, guid: 050b8f89784d3b44fa285b5a719411e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12227,7 +12231,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   range: 100
-  fireRate: 15
+  fireRate: 10
+  maxAmmo: 7
   fpsCam: {fileID: 890827029}
   muzzleFlash: {fileID: 53496840}
   impactEffect: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
@@ -12393,6 +12398,7 @@ MonoBehaviour:
   damage: 15
   range: 150
   fireRate: 10
+  maxAmmo: 30
   fpsCam: {fileID: 890827029}
   muzzleFlash: {fileID: 2124516527}
   impactEffect: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
@@ -12409,7 +12415,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.149
   m_Pitch: 1
   Loop: 0
   Mute: 0
