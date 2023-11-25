@@ -4,12 +4,16 @@ public class pistolScript : MonoBehaviour
 {
     public float damage = 10f;
     public float range = 100f;
+    public float fireRate = 15;
 
     public Camera fpsCam;
     public ParticleSystem muzzleFlash;
+    public GameObject impactEffect;
 
     AudioSource sound;
     public AudioClip shootSounds;
+
+    private float nextTimeToFire = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +31,9 @@ public class pistolScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && Time.time >= nextTimeToFire)
         {
+            nextTimeToFire = Time.time + 1f / fireRate;
             Shoot();
             sound.PlayOneShot(shootSounds);
             muzzleFlash.Play();
@@ -47,6 +52,8 @@ public class pistolScript : MonoBehaviour
             {
                 target.TakeDame(damage);
             }
+            GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(impactGO, 2f);
         }
     }
 }
