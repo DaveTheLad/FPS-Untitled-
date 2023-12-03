@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro; 
 using System.Collections;
 
 public class pistolScript : MonoBehaviour
@@ -12,12 +13,15 @@ public class pistolScript : MonoBehaviour
     private float reloadTime = 2f;
     private bool isReloading = false;
 
+    [SerializeField]
+    public TextMeshProUGUI reloadText;
     public Camera fpsCam;
     public ParticleSystem muzzleFlash;
     public GameObject impactEffect;
 
-    AudioSource sound;
+    public AudioSource sound;
     public AudioClip shootSounds;
+    public AudioClip reloadSound;
 
     private float nextTimeToFire = 0f;
 
@@ -26,23 +30,21 @@ public class pistolScript : MonoBehaviour
     {
         currentAmmo = maxAmmo;
 
-        // Get the AudioSource component attached to the same game object
         sound = GetComponent<AudioSource>();
 
-        // If AudioSource component is not present, add it
         if (sound == null)
         {
             sound = gameObject.AddComponent<AudioSource>();
         }
+
+        reloadText.text = "";
     }
 
     private void OnEnable()
     {
-        // Reset variables when enabling the script
         isReloading = false;
         nextTimeToFire = 0f;
 
-        // Check if the script is enabled before starting the reload coroutine
         if (currentAmmo <= 0 && enabled)
         {
             StartCoroutine(Reload());
@@ -80,11 +82,21 @@ public class pistolScript : MonoBehaviour
     IEnumerator Reload()
     {
         isReloading = true;
-        Debug.Log("Reloading....");
+        reloadText.text = "Reloading...";
+
+        if (reloadSound != null && sound != null)
+        {
+            sound.PlayOneShot(reloadSound);
+        }
+
         yield return new WaitForSeconds(reloadTime - .25f);
+
         currentAmmo = maxAmmo;
         isReloading = false;
-        Debug.Log("Reloaded!");
+        reloadText.text = "Reloaded!";
+
+        yield return new WaitForSeconds(1.5f);
+        reloadText.text = "";
     }
 
     void Shoot()
