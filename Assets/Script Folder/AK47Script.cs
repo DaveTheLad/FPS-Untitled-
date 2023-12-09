@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class AK47Script : MonoBehaviour
 {
@@ -9,15 +10,18 @@ public class AK47Script : MonoBehaviour
 
     public int maxAmmo = 25;
     private int currentAmmo;
-    private float reloadTime = 5f;
+    private float reloadTime = 2f;
     private bool isReloading = false;
 
+    [SerializeField]
+    public TextMeshProUGUI reloadText;
     public Camera fpsCam;
     public ParticleSystem muzzleFlash;
     public GameObject impactEffect;
 
-    AudioSource sound;
+    public AudioSource sound;
     public AudioClip shootSounds;
+    public AudioClip reloadSound;
 
     private float nextTimeToFire = 0f;
 
@@ -34,6 +38,8 @@ public class AK47Script : MonoBehaviour
         {
             sound = gameObject.AddComponent<AudioSource>();
         }
+
+        reloadText.text = "";
     }
 
     private void OnEnable()
@@ -80,11 +86,21 @@ public class AK47Script : MonoBehaviour
     IEnumerator Reload()
     {
         isReloading = true;
-        Debug.Log("Reloading....");
+        reloadText.text = "Reloading...";
+
+        if (reloadSound != null && sound != null)
+        {
+            sound.PlayOneShot(reloadSound);
+        }
+
         yield return new WaitForSeconds(reloadTime - .25f);
+
         currentAmmo = maxAmmo;
         isReloading = false;
-        Debug.Log("Reloaded!");
+        reloadText.text = "Reloaded!";
+
+        yield return new WaitForSeconds(1.5f);
+        reloadText.text = "";
     }
 
     void Shoot()

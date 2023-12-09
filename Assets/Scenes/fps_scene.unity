@@ -16032,10 +16032,13 @@ MonoBehaviour:
   range: 150
   fireRate: 10
   maxAmmo: 30
+  reloadText: {fileID: 237316856}
   fpsCam: {fileID: 890827029}
   muzzleFlash: {fileID: 676545191}
   impactEffect: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980, type: 3}
+  sound: {fileID: 0}
   shootSounds: {fileID: 8300000, guid: b2d159f7e00d44d9bbc2d50a0c4fef59, type: 3}
+  reloadSound: {fileID: 8300000, guid: e5198250a6a57408bb36e14bc4a322c4, type: 3}
 --- !u!82 &1851495010
 AudioSource:
   m_ObjectHideFlags: 0
